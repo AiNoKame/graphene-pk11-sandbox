@@ -47,7 +47,7 @@ How to set up OpenSC tools (specifically pkcs11-tool) on Mac OS X:
 https://github.com/OpenSC/OpenSC/wiki/macOS-Quick-Start
 
 After installation, run these SoftHSM commands to initialize a token in slot 0
-and insert a certificate
+and insert a private key
 
 1) Initialize token
 ```
@@ -62,7 +62,11 @@ Please reenter user PIN: **** (9876)
 The token has been initialized and is reassigned to slot 686818919
 ```
 
-2a) Generate private certificate in token
+Two options from here to insert the private key:
+2a - Use pkcs11-tool to generate a public/private key pair directly into token
+2b - Use softhsm2-util to import a private key that's been converted to PKCS#8 format
+
+2a) Generate private key in token
 ```
 > pkcs11-tool --module=/usr/local/lib/softhsm/libsofthsm2.so -l -k \
 -d abcd1234 -a provider-ripple-connect-key --key-type rsa:2048
@@ -81,7 +85,7 @@ Public Key Object; RSA 2048 bits
   Usage:      encrypt, verify, wrap
 ```
 
-2b-0) Convert regular PEM formatted private certificate to PKCS#8 format
+2b-0) Convert regular PEM formatted private key to PKCS#8 format
 (doesn't seem to be fetchable on SoftHSM)
 ```
 > openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt \
@@ -89,7 +93,7 @@ Public Key Object; RSA 2048 bits
 -out /Users/rod/Documents/GitHub/SoftHSMv2/provider-ripple-connect-key.pem
 ```
 
-2b-1) Import private certificate into token
+2b-1) Import private key into token
 (note the slot from the output of step 1, which is used in --slot param)
 ```
 > softhsm2-util \
