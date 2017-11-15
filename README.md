@@ -63,7 +63,9 @@ The token has been initialized and is reassigned to slot 686818919
 ```
 
 Two options from here to insert the private key:
+
 2a - Use pkcs11-tool to generate a public/private key pair directly into token
+
 2b - Use softhsm2-util to import a private key that's been converted to PKCS#8 format
 
 2a) Generate private key in token
